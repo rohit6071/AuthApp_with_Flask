@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}User Authentication App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ url_for('home') }}" class="logo">
+                    <i class="fas fa-user-shield"></i> AuthApp
+                </a>
+                <ul class="nav-links">
+                    {% if request.cookies.get('jwt_token') %}
+                        <li><span class="nav-user"><i class="fas fa-user"></i> {% if request.user %}{{ request.user.username }}{% else %}User{% endif %}</span></li>
+                        <li>
+                            <form action="{{ url_for('logout') }}" method="POST" class="logout-form">
+                                <button type="submit" class="btn-logout">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}" {% if request.endpoint == 'login' %}class="active"{% endif %}><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a href="{{ url_for('register') }}" {% if request.endpoint == 'register' %}class="active"{% endif %}><i class="fas fa-user-plus"></i> Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                <div class="container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 User Authentication App. JWT Authentication System</p>
+        </div>
+    </footer>
+</body>
+</html>

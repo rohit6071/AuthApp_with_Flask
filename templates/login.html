@@ -1,0 +1,79 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login - User Authentication App{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1><i class="fas fa-sign-in-alt"></i> User Login</h1>
+            <p>Enter your credentials to access your account</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('login') }}" class="auth-form">
+            <div class="form-group">
+                <label for="username">
+                    <i class="fas fa-user"></i> Username
+                </label>
+                <input type="text" 
+                       id="username" 
+                       name="username" 
+                       placeholder="Enter your username" 
+                       required>
+                <div class="form-hint">
+                    <i class="fas fa-info-circle"></i> Alphanumeric, starts with letter
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i> Password
+                </label>
+                <input type="password" 
+                       id="password" 
+                       name="password" 
+                       placeholder="Enter your password" 
+                       required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-sign-in-alt"></i> Login to Account
+                </button>
+            </div>
+
+            <div class="auth-links">
+                <p>Don't have an account? <a href="{{ url_for('register') }}" class="auth-link">Register here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <div class="features-section">
+        <h2><i class="fas fa-shield-alt"></i> Security Features</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h3>JWT Tokens</h3>
+                <p>Secure JSON Web Tokens with expiration</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-cookie"></i>
+                </div>
+                <h3>HTTP Only</h3>
+                <p>Tokens stored in HTTP-only cookies</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-hashtag"></i>
+                </div>
+                <h3>Bcrypt Hashing</h3>
+                <p>Passwords securely hashed with bcrypt</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

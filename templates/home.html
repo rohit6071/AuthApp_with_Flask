@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Home - User Authentication App{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1><i class="fas fa-user-shield"></i> Secure User Authentication</h1>
+        <p class="hero-subtitle">A Flask-based authentication system with JWT tokens, bcrypt hashing, and SQLAlchemy ORM</p>
+        
+        {% if not request.cookies.get('jwt_token') %}
+            <div class="hero-actions">
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-large">
+                    <i class="fas fa-user-plus"></i> Get Started
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary btn-large">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            </div>
+        {% else %}
+            <div class="welcome-section">
+                <h2><i class="fas fa-hand-wave"></i> Welcome back!</h2>
+                <p>You are logged in with JWT authentication.</p>
+                <div class="user-info-card">
+                    <div class="user-info-header">
+                        <i class="fas fa-user-circle"></i>
+                        <h3>Account Information</h3>
+                    </div>
+                    <div class="user-info-body">
+                        <p><strong>Username:</strong> 
+                            {% if current_user %}
+                                {{ current_user.username }}
+                            {% else %}
+                                User
+                            {% endif %}
+                        </p>
+                        <p><strong>Token Status:</strong> <span class="status-active">Active</span></p>
+                        <p><strong>Authentication:</strong> JWT Token</p>
+                    </div>
+                </div>
+
+                <!-- UPDATE FORMS SECTION -->
+                <div class="update-section">
+                    <h3><i class="fas fa-user-edit"></i> Profile Management</h3>
+                    
+                    <div class="update-forms">
+                        <!-- Partial Update Form -->
+                       <!-- Partial Update Form -->
+<div class="update-form-card">
+    <h4><i class="fas fa-pencil-alt"></i> Partial Update</h4>
+    <p>Update any field or All fields</p>
+    
+    <form method="POST" action="{{ url_for('partial', username=current_user.username if current_user else '') }}">
+        <input type="hidden" name="_method" value="PATCH">
+        
+        <div class="form-group">
+            <label>Username (Optional)</label>
+            <input type="text" name="username" placeholder="New username (leave blank to keep current)">
+        </div>
+        
+        <div class="form-group">
+            <label>Email (Optional)</label>
+            <input type="email" name="email" placeholder="New email (leave blank to keep current)">
+        </div>
+        
+        <div class="form-group">
+            <label>Password (Optional)</label>
+            <input type="password" name="password" placeholder="New password (leave blank to keep current)">
+        </div>
+        
+        <button type="submit" class="btn btn-warning">
+            <i class="fas fa-sync-alt"></i> Update Selected Fields
+        </button>
+    </form>
+</div>
+                        
+                        <!-- Full Update Form -->
+                        <div class="update-form-card">
+                            <h4><i class="fas fa-redo"></i> <span styleZ=> Full Update</span></h4>
+                            <p>Update all fields at once</p>
+                            
+                            <form method="POST" action="{{ url_for('update', username=current_user.username if current_user else '') }}">
+                                <input type="hidden" name="_method" value="PUT">
+                                
+                                <div class="form-group">
+                                    <label>New Username *</label>
+                                    <input type="text" name="username" placeholder="Enter new username" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>New Email *</label>
+                                    <input type="email" name="email" placeholder="Enter new email" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>New Password *</label>
+                                    <input type="password" name="password" placeholder="Enter new password (min 6 chars)" required>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-redo-alt"></i> Update All Fields
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="update-rules">
+                        <p><strong>Update Rules:</strong></p>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Partial: Update only filled fields</li>
+                            <li><i class="fas fa-check"></i> Full: All fields required</li>
+                            <li><i class="fas fa-check"></i> Username: Start with letter, alphanumeric only</li>
+                            <li><i class="fas fa-check"></i> Password: Minimum 6 characters</li>
+                            <li><i class="fas fa-check"></i> Email: Must be valid format</li>
+                            <li><i class="fas fa-check"></i> Unique: Username and email must be unique</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- END UPDATE FORMS SECTION -->
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="features-overview">
+    <h2 class="section-title"><i class="fas fa-star"></i> System Features</h2>
+    
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-key"></i>
+            </div>
+            <h3>JWT Authentication</h3>
+            <p>Secure JSON Web Tokens with 1-hour expiration</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> HTTP-only cookies</li>
+                <li><i class="fas fa-check"></i> Automatic validation</li>
+                <li><i class="fas fa-check"></i> Login decorator</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-hashtag"></i>
+            </div>
+            <h3>Password Security</h3>
+            <p>Bcrypt hashing for secure password storage</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> Salted hashes</li>
+                                <li><i class="fas fa-check"></i> Password verification</li>
+                <li><i class="fas fa-check"></i> Secure storage</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-database"></i>
+            </div>
+            <h3>Database ORM</h3>
+            <p>SQLAlchemy with SQLite database</p>
+            <ul class="feature-list">
+                <li><i class="fas fa-check"></i> User models</li>
+                <li><i class="fas fa-check"></i> Session management</li>
+                <li><i class="fas fa-check"></i> Data validation</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="api-section">
+        <h2 class="section-title"><i class="fas fa-code"></i> API Endpoints</h2>
+        <div class="endpoints-grid">
+            <div class="endpoint-card">
+                <h3><span class="method post">POST</span> /register</h3>
+                <p>Create new user account with validation</p>
+            </div>
+            <div class="endpoint-card">
+                <h3><span class="method post">POST</span> /login</h3>
+                <p>Authenticate and receive JWT token</p>
+            </div>
+            <div class="endpoint-card">
+                <h3><span class="method put">PUT</span> /update/username</h3>
+                <p>Fully update user profile (login required)</p>
+            </div>
+            <div class="endpoint-card">
+                <h3><span class="method patch">PATCH</span> /partial/username</h3>
+                <p>Partially update user profile (login required)</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
