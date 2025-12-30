@@ -47,8 +47,8 @@ Git (for version control)
 1. Clone the Repository
 
 bash
-git clone https://github.com/yourusername/flask-jwt-auth.git
-cd flask-jwt-auth
+git clone https://github.com/rohit6071/AuthApp_with_Flask.git
+cd AuthApp_with_Flask
 
 2. Create Virtual Environment
 
